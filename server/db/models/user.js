@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate({ Tea, Favorite}) {
       this.hasMany(Tea, {
-        foreignKey: 'user_id',
+        foreignKey: 'userId',
       });
       this.belongsToMany(Tea, {
         through: Favorite,    // Промежуточная таблица
@@ -22,10 +22,13 @@ module.exports = (sequelize, DataTypes) => {
   User.init({
     name: DataTypes.STRING,
     email: DataTypes.STRING,
-    password: DataTypes.STRING
+    password: DataTypes.STRING,
+    createdAt: DataTypes.DATE, 
+    updatedAt: DataTypes.DATE  
   }, {
     sequelize,
     modelName: 'User',
+     tableName: 'Users'
   });
   return User;
 };
