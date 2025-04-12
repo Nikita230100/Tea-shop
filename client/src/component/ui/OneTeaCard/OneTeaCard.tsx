@@ -7,6 +7,9 @@ import './OneTeaCard.css';
 export default function OneTeaCard({ user }) {
   const [tea, setTea] = useState(null);
   const { id } = useParams();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const navigate = useNavigate();
   
   const isAdmin = user?.data?.id === 1;
@@ -32,9 +35,22 @@ export default function OneTeaCard({ user }) {
     }
   };
 
-  const addToCart = () => {
-    console.log('Добавлено в корзину:', tea);
-    alert(`Чай "${tea.name}" добавлен в корзину!`);
+  const addToCart = async () => {
+    try {
+      setLoading(true);
+      setError('');
+      setSuccess('');
+      
+      const response = await axiosInstance.post(`/cart/tea/${id}`);
+      
+      setSuccess(`Чай "${tea.name}" добавлен в корзину! (Количество: ${response.data.quantity})`);
+      setTimeout(() => setSuccess(''), 3000);
+    } catch (error) {
+      console.error('Ошибка при добавлении в корзину:', error);
+      setError(error.response?.data?.message || 'Не удалось добавить товар в корзину');
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (!tea) {

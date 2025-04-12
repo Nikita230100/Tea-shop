@@ -11,6 +11,7 @@ import OneTeaCard from "./component/ui/OneTeaCard/OneTeaCard";
 import ProtectedRoute from "./component/utils/ProtectedRoute";
 import LkPage from "./component/ui/LkPage/LkPage";
 import EditTeaForm from "./component/ui/AddTeaCard/EditTeaForm";
+import CartPage from "./component/pages/CartPage/CartPage";
 
 interface User {
   id: number;
@@ -108,6 +109,14 @@ function App() {
       element={
         <ProtectedRoute user={user} redirectTo="/signin">
           <LkPage user={user} setTeas={setTeas}/>
+        </ProtectedRoute>
+      } 
+    />
+    <Route 
+      path="/cart" 
+      element={
+        <ProtectedRoute user={user} redirectTo="/signin">
+          <CartPage user={user} />
         </ProtectedRoute>
       } 
     />
