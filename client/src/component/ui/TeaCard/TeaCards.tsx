@@ -5,9 +5,10 @@ import { Link } from "react-router-dom";
 import { axiosInstance } from "../../shared/lib/axiosInstance";
 import "./TeaCard.css";
 
-export default function TeaCard({ user, tea, setTeas }) {
+export default function TeaCard({ user, tea, setTeas, isFavorite, onToggleFavorite }) {
   const [ingredients, setIngredients] = useState([]);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [localIsFavorite, setLocalIsFavorite] = useState(isFavorite || false);
 
   // Проверяем, является ли текущий пользователь админом
   useEffect(() => {
@@ -16,15 +17,10 @@ export default function TeaCard({ user, tea, setTeas }) {
     }
   }, [user]);
 
-  const favouriteHandler = async () => {
-    try {
-      await axiosInstance.post(
-        `favorites/tea/${tea.id}/users/${user.data.id}/likes`
-      );
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // Синхронизируем локальное состояние с пропсом
+  useEffect(() => {
+    setLocalIsFavorite(isFavorite);
+  }, [isFavorite]);
 
   useEffect(() => {
     if (tea.compound) {
@@ -38,6 +34,19 @@ export default function TeaCard({ user, tea, setTeas }) {
       setTeas(prevTeas => prevTeas.filter(r => r.id !== id));
     } catch (error) {
       console.log(error);
+    }
+  };
+  
+  const handleFavoriteClick = async () => {
+    try {
+      if (onToggleFavorite) {
+        onToggleFavorite(tea.id);
+      } else {
+        await axiosInstance.post(`/favorites/tea/${tea.id}/likes`);
+        setLocalIsFavorite(!localIsFavorite);
+      }
+    } catch (error) {
+      console.error('Error:', error);
     }
   };
 
@@ -60,11 +69,10 @@ export default function TeaCard({ user, tea, setTeas }) {
             : tea.description}
         </Card.Text>
         <div className="mt-auto d-flex flex-column">
-          <Button as={Link} to={`/${tea.id}`} variant="outline-success" >
+          <Button as={Link} to={`/${tea.id}`} variant="outline-success">
             Подробнее
           </Button>
           
-          {/* Показываем кнопку удалить только админу */}
           {isAdmin && (
             <Button 
               variant="outline-danger" 
@@ -79,10 +87,10 @@ export default function TeaCard({ user, tea, setTeas }) {
       
       {user && (
         <button
-          onClick={favouriteHandler}
-          className="favorite-btn"
+          onClick={handleFavoriteClick}
+          className={`favorite-btn ${localIsFavorite ? 'active' : ''}`}
         >
-          ❤️
+          {localIsFavorite ? '❤️' :  '❤️'}
         </button>
       )}
     </Card>

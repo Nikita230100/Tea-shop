@@ -1,0 +1,42 @@
+.lk-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+  
+  .lk-greeting {
+    color: #588157;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+  
+  .lk-subtitle {
+    color: #3a5a40;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #588157;
+    padding-bottom: 0.5rem;
+  }
+  
+  .favorites-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+  
+  .no-favorites {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #666;
+    margin-top: 2rem;
+  }
+  
+  @media (max-width: 768px) {
+    .lk-container {
+      padding: 1rem;
+    }
+    
+    .favorites-grid {
+      grid-template-columns: 1fr;
+    }
+  }

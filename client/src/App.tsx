@@ -9,6 +9,7 @@ import BasicExample from "./component/utils/Spinner";
 import AuthRoute from "./component/utils/AuthRoute";
 import OneTeaCard from "./component/ui/OneTeaCard/OneTeaCard";
 import ProtectedRoute from "./component/utils/ProtectedRoute";
+import LkPage from "./component/ui/LkPage/LkPage";
 
 interface User {
   id: number;
@@ -101,7 +102,17 @@ function App() {
     </ProtectedRoute>
   } 
 /> 
+<Route 
+      path="/lk" 
+      element={
+        <ProtectedRoute user={user} redirectTo="/signin">
+          <LkPage user={user} />
+        </ProtectedRoute>
+      } 
+    />
         </Route>
+        
+    
       </Routes>
     </BasicExample>
   );
@@ -136,12 +147,3 @@ export default App;
 
 
 
-
-    {/* <Route 
-      path="/favorites" 
-      element={
-        <ProtectedRoute user={user} redirectTo="/signin">
-          <FavoritesPage user={user} />
-        </ProtectedRoute>
-      } 
-    />*/}
