@@ -44,7 +44,7 @@ const SignInForm: React.FC<SignInFormProps> = ({ setUser }) => {
       setAccessToken(response.data.accessToken);
       navigate("/");
     } catch (error) {
-        let errorMessage = "Произошла ошибка при входе";
+        let errorMessage = "Неверный логин или пароль";
         
         if (error instanceof Error) {
           const axiosError = error as AxiosError<{ message?: string }>;
@@ -52,7 +52,7 @@ const SignInForm: React.FC<SignInFormProps> = ({ setUser }) => {
           if (axiosError.response?.data?.message) {
             errorMessage = axiosError.response.data.message;
           } else if (axiosError.response) {
-            errorMessage = `Ошибка сервера: ${axiosError.response.status}`;
+            errorMessage = `Неверный логин или пароль: ${axiosError.response.status}`;
           } else if (axiosError.request) {
             errorMessage = "Не удалось подключиться к серверу";
           }

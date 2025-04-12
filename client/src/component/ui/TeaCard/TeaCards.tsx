@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { axiosInstance } from "../../shared/lib/axiosInstance";
 import "./TeaCard.css";
 
@@ -9,7 +9,7 @@ export default function TeaCard({ user, tea, setTeas, isFavorite, onToggleFavori
   const [ingredients, setIngredients] = useState([]);
   const [isAdmin, setIsAdmin] = useState(false);
   const [localIsFavorite, setLocalIsFavorite] = useState(isFavorite || false);
-
+  const navigate = useNavigate();
   // Проверяем, является ли текущий пользователь админом
   useEffect(() => {
     if (user && user.data && user.data.id === 1) {
@@ -50,16 +50,20 @@ export default function TeaCard({ user, tea, setTeas, isFavorite, onToggleFavori
     }
   };
 
+  const handleEditClick = () => {
+    navigate(`/edit-tea/${tea.id}`, { state: { teaData: tea } });
+  };
+
   return (
     <Card className="tea-card h-100">
       <Card.Img 
         variant="top" 
-        src={`/images/tea/${tea.image}`} 
-        alt={tea.name}
-        onError={(e) => {
-          e.target.src = '/images/tea/default.jpg';
-        }}
-      />
+        src={tea.image.startsWith('http') ? tea.image : `/images/tea/${tea.image}`} 
+  alt={tea.name}
+  onError={(e) => {
+    e.target.src = '/images/tea/default.jpg';
+  }}
+/>
       <Card.Body className="d-flex flex-column">
         <Card.Title>{tea.name}</Card.Title>
         <Card.Text className="fw-bold">{`${tea.price} ₽`}</Card.Text>
@@ -73,7 +77,16 @@ export default function TeaCard({ user, tea, setTeas, isFavorite, onToggleFavori
             Подробнее
           </Button>
           
+          
           {isAdmin && (
+             <>
+             <Button 
+             variant="outline-primary" 
+             onClick={handleEditClick}
+             className="mt-2"
+           >
+             Изменить
+           </Button>
             <Button 
               variant="outline-danger" 
               onClick={() => deleteTeaHandle(tea.id)}
@@ -81,6 +94,7 @@ export default function TeaCard({ user, tea, setTeas, isFavorite, onToggleFavori
             >
               Удалить
             </Button>
+            </>
           )}
         </div>
       </Card.Body>

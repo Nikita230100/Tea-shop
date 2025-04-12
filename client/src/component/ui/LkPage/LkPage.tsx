@@ -1,12 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { axiosInstance } from '../../shared/lib/axiosInstance';
 import TeaCard from '../TeaCard/TeaCards';
+import AddTeaForm from '../AddTeaCard/AddTeaCardForm'; // Импортируем форму добавления
 import './LkPage.css';
 
-
-export default function LkPage({user}) {
+export default function LkPage({user, setTeas}) {
   const [favoriteTeas, setFavoriteTeas] = useState([]);
+  const [isAdmin, setIsAdmin] = useState(false);
 
+  // Проверяем, является ли пользователь админом
+  useEffect(() => {
+    if (user?.data?.id === 1) {
+      setIsAdmin(true);
+    }
+  }, [user]);
 
   const fetchFavorites = async () => {
     try {
@@ -27,32 +34,43 @@ export default function LkPage({user}) {
   };
 
   useEffect(() => {
-    if (user) {
+    if (user && !isAdmin) { // Загружаем избранное только для обычных пользователей
       fetchFavorites();
     }
-  }, [user]);
+  }, [user, isAdmin]);
 
   return (
     <div className="lk-container">
       <h1 className="lk-greeting">
         Добро пожаловать, {user?.data?.name}!
       </h1>
-      <h2 className="lk-subtitle">Ваши избранные товары</h2>
       
-      {favoriteTeas.length > 0 ? (
-        <div className="favorites-grid">
-          {favoriteTeas.map(tea => (
-            <TeaCard 
-              key={tea.id} 
-              tea={tea} 
-              user={user}
-              isFavorite={true}
-              onToggleFavorite={removeFromFavorites}
-            />
-          ))}
+      {isAdmin ? (
+        // Показываем форму добавления для админа
+        <div className="admin-section">
+          <h2 className="lk-subtitle">Панель администратора</h2>
+          <AddTeaForm user={user} setTeas={setTeas}/>
         </div>
       ) : (
-        <p className="no-favorites">У вас пока нет избранных чаев</p>
+        // Показываем избранное для обычных пользователей
+        <>
+          <h2 className="lk-subtitle">Ваши избранные товары</h2>
+          {favoriteTeas.length > 0 ? (
+            <div className="favorites-grid">
+              {favoriteTeas.map(tea => (
+                <TeaCard 
+                  key={tea.id} 
+                  tea={tea} 
+                  user={user}
+                  isFavorite={true}
+                  onToggleFavorite={removeFromFavorites}
+                />
+              ))}
+            </div>
+          ) : (
+            <p className="no-favorites">У вас пока нет избранных чаев</p>
+          )}
+        </>
       )}
     </div>
   );

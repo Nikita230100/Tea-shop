@@ -1,4 +1,6 @@
 const TeaService = require('../service/teaService');
+const {Tea} = require('../../db/models')
+
 
 class TeaController {
   // Получение всех чаёв
@@ -62,6 +64,24 @@ class TeaController {
       res.status(500).json({ error: 'Internal server error' });
     }
   }
+
+
+  // изменение 
+ static async update(req, res) {
+    try {
+      const [updated] = await Tea.update(req.body, {
+        where: { id: req.params.id }
+      });
+      if (updated) {
+        const updatedTea = await Tea.findByPk(req.params.id);
+        return res.json(updatedTea);
+      }
+      throw new Error('Tea not found');
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Server error' });
+    }
+  };
 }
 
 module.exports = TeaController;
