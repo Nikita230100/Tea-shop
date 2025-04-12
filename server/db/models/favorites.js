@@ -20,10 +20,13 @@ module.exports = (sequelize, DataTypes) => {
   }
   Favorites.init({
     userId: DataTypes.INTEGER,
-    teaId: DataTypes.INTEGER
+    teaId: DataTypes.INTEGER,
+    createdAt: DataTypes.DATE, 
+    updatedAt: DataTypes.DATE  
   }, {
     sequelize,
     modelName: 'Favorite',
+     tableName: 'Favorites'
   });
   return Favorites;
 };

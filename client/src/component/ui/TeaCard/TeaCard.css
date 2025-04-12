@@ -1,0 +1,92 @@
+.tea-card {
+  height: 100%; /* Чтобы все карточки в ряду были одной высоты */
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: none;
+}
+
+.tea-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.tea-card .card-img-top {
+  width: 100%;
+  height: 200px; /* Фиксированная высота изображения */
+  object-fit: cover; /* Чтобы изображения заполняли область */
+}
+
+.tea-card .card-body {
+  flex: 1; /* Растягиваем body на всю доступную высоту */
+  display: flex;
+  flex-direction: column;
+  padding: 1.25rem;
+}
+
+.tea-card .card-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: #333;
+}
+
+.tea-card .card-text.fw-bold {
+  color: #28a745;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.tea-card .card-text.text-muted {
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  flex-grow: 1; /* Растягиваем описание для выравнивания высоты */
+}
+
+.tea-card .btn-outline-success {
+  width: 100%;
+}
+
+.tea-card .btn-outline-warning {
+  width: 100%;
+  margin-top: 10px;
+  margin-left: 0 !important;
+}
+
+.favorite-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  border: none;
+  padding: 5px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 1;
+}
+
+.favorite-btn:hover {
+  background-color: rgba(255, 192, 203, 0.8);
+  transform: scale(1.1);
+}
+
+
+.btn-outline-danger {
+  border-color: #dc3545;
+  color: #dc3545;
+}
+
+.btn-outline-danger:hover {
+  background-color: #dc3545;
+  color: white;
+}

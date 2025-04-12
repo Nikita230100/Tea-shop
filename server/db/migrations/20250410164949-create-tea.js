@@ -25,6 +25,10 @@ module.exports = {
         allowNull: true,
         type: Sequelize.TEXT
       },
+      price: {
+        allowNull: false,
+        type: Sequelize.INTEGER
+      },
       userId: {
         allowNull:  false,
         type: Sequelize.INTEGER,

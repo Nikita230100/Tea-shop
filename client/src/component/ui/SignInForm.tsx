@@ -4,6 +4,7 @@ import Form from 'react-bootstrap/Form';
 import { useNavigate } from 'react-router-dom';
 import { axiosInstance, setAccessToken } from '../shared/lib/axiosInstance';
 import { AxiosError } from 'axios';
+import { Container } from 'react-bootstrap';
 
 
 interface UserData {
@@ -61,7 +62,8 @@ const SignInForm: React.FC<SignInFormProps> = ({ setUser }) => {
       }
     };
   return (
-    <Form onSubmit={loginHandler}>
+    <Container className="d-flex justify-content-center ">
+    <Form onSubmit={loginHandler} style={{width:'500px', marginTop: '90px'}}>
       <Form.Group className="mb-3" controlId="formBasicEmail">
         <Form.Label>Email</Form.Label>
         <Form.Control 
@@ -87,6 +89,7 @@ const SignInForm: React.FC<SignInFormProps> = ({ setUser }) => {
         Войти
       </Button>
     </Form>
+    </Container>
   );
 };
 

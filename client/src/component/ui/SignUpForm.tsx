@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useNavigate } from 'react-router-dom';
 import { AxiosError } from 'axios';
+import { Container } from 'react-bootstrap';
 
 interface User {
   status: string;
@@ -23,7 +24,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ setUser }) => {
   
   const signUpHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('Форма отправлена!'); // Логирование
+    
     
     const formData = {
       email: e.currentTarget.email.value,
@@ -31,7 +32,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ setUser }) => {
       name: e.currentTarget.name.value
     };
 
-    console.log('Данные формы:', formData); // Логирование
+    
 
     if (!formData.email || !formData.password || !formData.name) {
       alert("Заполните все поля");
@@ -39,14 +40,14 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ setUser }) => {
     }
 
     try {
-      console.log('Отправка запроса...'); // Логирование
+     
       const response = await axiosInstance.post("/auth/signup", formData, {
         headers: {
           'Content-Type': 'application/json'
         }
       });
       
-      console.log('Ответ сервера:', response.data); // Логирование
+      
       setUser({ status: "logged", data: response.data.user });
       navigate("/");
     } catch (error) {
@@ -54,7 +55,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ setUser }) => {
       const axiosError = error as AxiosError<{ message?: string }>;
       
       if (axiosError.response) {
-        console.log('Детали ошибки:', axiosError.response); // Логирование
+        
         if (axiosError.response.status === 400) {
           alert(axiosError.response.data?.message || "Пользователь с таким email уже существует");
         } else if (axiosError.response.status === 500) {
@@ -71,7 +72,8 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ setUser }) => {
   };
 
   return (
-    <Form onSubmit={signUpHandler}>
+    <Container className="d-flex justify-content-center ">
+    <Form onSubmit={signUpHandler} style={{width:'500px', marginTop: '90px'}}>
       <Form.Group className="mb-3" controlId="formBasicLogin">
         <Form.Label>Login</Form.Label>
         <Form.Control 
@@ -102,7 +104,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ setUser }) => {
           autoComplete="on"
         />
         <Form.Text className="text-muted">
-          Пароль должен содержать не менее 8 символов
+        Требования: минимум 8 символов, заглавные и строчные латинские буквы
         </Form.Text>
       </Form.Group>
 
@@ -110,6 +112,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ setUser }) => {
         Зарегистрироваться
       </Button>
     </Form>
+    </Container>
   );
 };
 

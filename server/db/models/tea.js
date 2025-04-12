@@ -25,10 +25,14 @@ module.exports = (sequelize, DataTypes) => {
     description: DataTypes.TEXT,
     compound: DataTypes.TEXT,
     userId: DataTypes.INTEGER,
-    image: DataTypes.TEXT
+    price: DataTypes.INTEGER,
+    image: DataTypes.TEXT,
+    createdAt: DataTypes.DATE, 
+    updatedAt: DataTypes.DATE  
   }, {
     sequelize,
     modelName: 'Tea',
+     tableName: 'Teas'
   });
   return Tea;
 };
