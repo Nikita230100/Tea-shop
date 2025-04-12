@@ -8,6 +8,10 @@ teaRouter.get('/', TeaController.getAll);
 // Получить один чай по ID
 teaRouter.get('/:id', TeaController.getOne);
 
+
+teaRouter.put('/:id', verifyAccessToken, TeaController.update);
+
+
 // Получить несколько чаёв по ID (через запятую)
 teaRouter.get('/favorites/:ids', TeaController.getFavs);
 

@@ -10,6 +10,7 @@ import AuthRoute from "./component/utils/AuthRoute";
 import OneTeaCard from "./component/ui/OneTeaCard/OneTeaCard";
 import ProtectedRoute from "./component/utils/ProtectedRoute";
 import LkPage from "./component/ui/LkPage/LkPage";
+import EditTeaForm from "./component/ui/AddTeaCard/EditTeaForm";
 
 interface User {
   id: number;
@@ -34,7 +35,7 @@ interface TokenRefreshResponse {
 function App() {
   const [user, setUser] = useState<UserState>({ status: "logging", data: null });
   const [isLoading, setIsLoading] = useState(true); // Добавляем состояние загрузки
-
+  const [teas, setTeas] = useState([]);
   const handleLogout = () => {
     setIsLoading(true);
     axiosInstance
@@ -106,10 +107,18 @@ function App() {
       path="/lk" 
       element={
         <ProtectedRoute user={user} redirectTo="/signin">
-          <LkPage user={user} />
+          <LkPage user={user} setTeas={setTeas}/>
         </ProtectedRoute>
       } 
     />
+    <Route 
+  path="/edit-tea/:id"
+  element={
+    <ProtectedRoute user={user} redirectTo="/signin">
+      <EditTeaForm user={user} setTeas={setTeas} />
+    </ProtectedRoute>
+  }
+/>
         </Route>
         
     

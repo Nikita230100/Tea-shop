@@ -45,7 +45,7 @@ export default function OneTeaCard({ user }) {
     <div className="one-tea-container">
       <div className="tea-image-container">
         <img 
-          src={`/images/tea/${tea.image}`} 
+          src={tea.image.startsWith('http') ? tea.image : `/images/tea/${tea.image}`} 
           alt={tea.name}
           className="tea-image"
           onError={(e) => {
