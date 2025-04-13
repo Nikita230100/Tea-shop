@@ -7,7 +7,8 @@ const authRouter = require('./routes/auth.routes');
 const tokenRouter = require('./routes/tokenRouter');
 const teaRouter = require('./routes/teaRouter');
 const favoriteRoutes = require('./routes/favoriteRoutes')
-const cartRouter = require('./routes/cartRouter')
+const cartRouter = require('./routes/cartRouter');
+const aiRouter = require('./routes/aiRouter');
 const app = express();
 
 app.use(morgan('dev'));
@@ -22,5 +23,6 @@ app.use('/api/tokens', tokenRouter);
 app.use('/api/teas', teaRouter);
 app.use('/api/cart', cartRouter);
 
+app.use('/api/ai', aiRouter);
 app.use('/api/favorites', favoriteRoutes);
 module.exports = app;
