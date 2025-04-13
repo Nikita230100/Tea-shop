@@ -68,6 +68,7 @@ export default function NavigationPanel({ handleLogout, user }: NavigationPanelP
                 )}
               </>
             )}
+            <>
             <Nav.Link 
               as={Link} 
               to="/cart"
@@ -75,6 +76,14 @@ export default function NavigationPanel({ handleLogout, user }: NavigationPanelP
             >
               Корзина
             </Nav.Link>
+            <Nav.Link 
+              as={Link} 
+              to="/recommend"
+              style={{ color: '#588157' }} // Зеленый цвет ссылок
+            >
+              Рекомендации
+            </Nav.Link>
+            </>
           </Nav>
 
           {/* Блок авторизации */}
